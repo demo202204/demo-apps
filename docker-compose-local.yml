@@ -1,0 +1,12 @@
+version: '3'
+services:
+  azure-vote-front:
+    build:
+      context: ./azure-vote
+      target: development
+    # ローカル環境のフォルダをコンテナにマウント
+    volumes:
+    - .:/app:rw
+    - ~/.ssh:/root/.ssh
+    # コンテナの実行をプロセスに依存せず永続化
+    command: sleep infinity
