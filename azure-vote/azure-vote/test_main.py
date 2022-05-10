@@ -27,6 +27,6 @@ def test_get(client):
     assert 'Azure Voting App' in result.get_data(as_text=True)
 
 
-def test_Fail(client):
-    # テスト失敗時
-    assert False
+# def test_Fail(client):
+#     # テスト失敗時
+#     assert False
