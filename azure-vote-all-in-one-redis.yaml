@@ -1,38 +1,3 @@
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: azure-vote-back
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: azure-vote-back
-  template:
-    metadata:
-      labels:
-        app: azure-vote-back
-    spec:
-      nodeSelector:
-        "beta.kubernetes.io/os": linux
-      containers:
-      - name: azure-vote-back
-        image: mcr.microsoft.com/oss/bitnami/redis:6.0.8
-        env:
-        - name: ALLOW_EMPTY_PASSWORD
-          value: "yes"
-        ports:
-        - containerPort: 6379
-          name: redis
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: azure-vote-back
-spec:
-  ports:
-  - port: 6379
-  selector:
-    app: azure-vote-back
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -67,7 +32,12 @@ spec:
             cpu: 500m
         env:
         - name: REDIS
-          value: "azure-vote-back"
+          value: "SampleRedis202203.redis.cache.windows.net"
+        - name: REDIS_PWD
+          valueFrom:
+            secretKeyRef:
+              name: redis-secret
+              key: redis-pwd
 ---
 apiVersion: v1
 kind: Service
@@ -79,3 +49,4 @@ spec:
   - port: 80
   selector:
     app: azure-vote-front
+
